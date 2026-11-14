@@ -1,0 +1,6 @@
+---
+- name: Apply baseline to lab VMs
+  hosts: lab
+  become: true
+  roles:
+    - baseline

@@ -8,6 +8,7 @@ Write-ups of systems I have designed, built and run. Everything here is redacted
 | [Email triage with local LLMs](email-triage-local-llm/README.md) | Self-hosted AI, failure handling, retry queues, human review |
 | [Self-hosted voice and chat assistant](self-hosted-assistant/README.md) | Least-privilege tool design, secret masking, Home Assistant, CalDAV |
 | [Monitoring and centralized logging](monitoring-and-logging/README.md) | rsyslog, Uptime Kuma, change-only alerting, watchdogs |
+| [Infrastructure as code for a Proxmox lab](infrastructure-as-code/README.md) | OpenTofu, Ansible, cloud-init, least-privilege API tokens, CI with secret scanning |
 
 ## Environment
 

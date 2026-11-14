@@ -1,0 +1,13 @@
+# Copy to terraform.tfvars (git-ignored) and fill in real values.
+node_name      = "pve"
+pool_id        = "iac-lab"
+gateway        = "192.168.50.1"
+dns_servers    = ["192.168.50.53"]
+ssh_public_key = "ssh-ed25519 AAAA...replace-me labadmin"
+
+vms = {
+  "lab-web-01" = {
+    vm_id     = 9001
+    ipv4_cidr = "192.168.50.10/24"
+  }
+}

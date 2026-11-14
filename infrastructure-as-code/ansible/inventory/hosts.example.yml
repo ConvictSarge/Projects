@@ -1,0 +1,9 @@
+# Copy to hosts.yml (git-ignored). Addresses come from `tofu output vms`.
+all:
+  vars:
+    ansible_user: labadmin
+  children:
+    lab:
+      hosts:
+        lab-web-01:
+          ansible_host: 192.168.50.10

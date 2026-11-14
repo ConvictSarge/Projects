@@ -1,0 +1,9 @@
+---
+baseline_packages:
+  - qemu-guest-agent
+  - unattended-upgrades
+  - chrony
+  - ufw
+  - fail2ban
+baseline_ssh_allow_from: "192.168.50.0/24"  # override per environment
+baseline_timezone: "America/New_York"

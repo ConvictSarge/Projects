@@ -1,0 +1,23 @@
+# OpenTofu / Terraform state and secrets: never commit
+*.tfstate
+*.tfstate.*
+.terraform/
+*.tfvars
+!*.tfvars.example
+crash.log
+.terraform.tfstate.lock.info
+
+# Ansible: real inventory and vault files stay local
+ansible/inventory/hosts.yml
+*.vault.yml
+*.retry
+
+# Local env
+.env
+*.pem
+*.key
+
+# Local drafts for the public write-up
+drafts/
+ansible/inventory/group_vars/
+*.plan
