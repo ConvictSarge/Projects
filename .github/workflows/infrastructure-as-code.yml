@@ -1,0 +1,56 @@
+name: infrastructure-as-code
+
+on:
+  push:
+    paths:
+      - "infrastructure-as-code/**"
+      - ".github/workflows/infrastructure-as-code.yml"
+  pull_request:
+    paths:
+      - "infrastructure-as-code/**"
+      - ".github/workflows/infrastructure-as-code.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  tofu:
+    name: OpenTofu fmt + validate
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: infrastructure-as-code
+    steps:
+      - uses: actions/checkout@v4
+      - uses: opentofu/setup-opentofu@v1
+        with:
+          tofu_version: 1.13.2
+      - run: tofu -chdir=terraform fmt -check -recursive
+      - run: tofu -chdir=terraform init -backend=false
+      - run: tofu -chdir=terraform validate
+
+  ansible:
+    name: ansible-lint
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: infrastructure-as-code/ansible
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install "ansible-core==2.21.6" "ansible-lint==26.10.1"
+      - run: ansible-galaxy collection install -r requirements.yml
+      - run: ansible-lint
+
+  secrets:
+    name: gitleaks
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
