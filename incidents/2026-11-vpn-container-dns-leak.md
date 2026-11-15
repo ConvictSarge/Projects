@@ -8,12 +8,12 @@ A container that is only allowed to use the internet through a WireGuard VPN was
 
 ## Impact
 
-- The application's DNS lookups (tracker domains) were visible to the local resolver, and from there to the upstream DNS provider, outside the VPN.
+- The names of the external services the application contacts were visible to the local resolver, and from there to the upstream DNS provider, outside the VPN.
 - No traffic other than DNS left the tunnel.
 
 ## Timeline (Nov 14)
 
-- **Afternoon:** a read-only check of the local DNS resolver shows lookups for that container's tracker domains, some with the home domain appended through the DNS search path.
+- **Afternoon:** a read-only check of the local DNS resolver shows lookups coming from that container, some with the home domain appended through the DNS search path.
 - **Follow-up:** the tunnel, kill switch and application binding all check out; only DNS is leaking.
 - **Evening:** fix applied, then verified.
 
@@ -36,8 +36,7 @@ The VPN itself was fine. DNS was never routed through it.
 1. Set `resolv.conf` to the VPN provider's DNS server, which is only reachable through the tunnel, with the LAN resolver as a fallback for root. Removed the search domain and set short timeouts.
 2. Created `/etc/.pve-ignore.resolv.conf` so Proxmox does not overwrite the file.
 3. Added an nftables output rule that drops any traffic from the application's user on the LAN interface. Root keeps LAN DNS, because the tunnel refresh script needs to resolve names while the tunnel is down.
-4. Removed a tracker domain that no longer exists (NXDOMAIN) from 19 torrents.
-5. Backed up the original files and wrote down the undo steps first.
+4. Backed up the original files and wrote down the undo steps first.
 
 ## Verification
 
