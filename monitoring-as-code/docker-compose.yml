@@ -1,0 +1,84 @@
+# Monitoring stack. Update: bump the image tags, then docker compose pull && docker compose up -d
+# Published ports bind to one LAN address only (BIND_ADDR in .env), never 0.0.0.0.
+services:
+  prometheus:
+    image: prom/prometheus:v3.5.0
+    container_name: prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.retention.time=60d
+      - --web.enable-lifecycle
+    volumes:
+      - ./prometheus:/etc/prometheus:ro
+      - prometheus-data:/prometheus
+    ports: ["${BIND_ADDR}:9090:9090"]
+    restart: unless-stopped
+
+  snmp-exporter:
+    image: prom/snmp-exporter:v0.29.0
+    container_name: snmp-exporter
+    command:
+      - --config.file=/etc/snmp_exporter/snmp.yml
+    volumes:
+      - ./snmp:/etc/snmp_exporter:ro
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana-oss:12.1.0
+    container_name: grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_ANALYTICS_REPORTING_ENABLED=false
+      - GF_SECURITY_ALLOW_EMBEDDING=true
+      - TZ=America/New_York
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+    ports: ["${BIND_ADDR}:3000:3000"]
+    restart: unless-stopped
+
+  blackbox:
+    image: prom/blackbox-exporter:v0.27.0
+    container_name: blackbox
+    volumes:
+      - ./blackbox:/config:ro
+    command: [--config.file=/config/blackbox.yml]
+    restart: unless-stopped
+
+  # Read-only Proxmox API token (PVEAuditor role), not a user password.
+  pve-exporter:
+    image: prompve/prometheus-pve-exporter:latest
+    container_name: pve-exporter
+    environment:
+      - PVE_USER=${PVE_USER}
+      - PVE_TOKEN_NAME=${PVE_TOKEN_NAME}
+      - PVE_TOKEN_VALUE=${PVE_TOKEN_VALUE}
+      - PVE_VERIFY_SSL=${PVE_VERIFY_SSL}
+    restart: unless-stopped
+
+  loki:
+    image: grafana/loki:3.7.9
+    container_name: loki
+    command: [-config.file=/etc/loki/config.yml]
+    volumes:
+      - ./loki:/etc/loki:ro
+      - loki-data:/loki
+    restart: unless-stopped
+
+  # Syslog receiver: the switch sends UDP 514 to this host; Vector listens on 1514 inside.
+  vector:
+    image: timberio/vector:0.61.0-alpine
+    container_name: vector
+    command: [--config, /etc/vector/vector.yaml]
+    volumes:
+      - ./vector:/etc/vector:ro
+    ports: ["${BIND_ADDR}:514:1514/udp"]
+    depends_on: [loki]
+    restart: unless-stopped
+
+volumes:
+  prometheus-data:
+  grafana-data:
+  loki-data:

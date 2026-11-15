@@ -1,0 +1,18 @@
+# Receives raw syslog from the switch over UDP. The switch's own format and clock are
+# non-standard (its timestamps carry the wrong year), so keep the raw line and let Loki
+# use the receive time. Grafana Alloy was tried first and dropped these lines.
+sources:
+  switch:
+    type: socket
+    mode: udp
+    address: 0.0.0.0:1514
+sinks:
+  loki:
+    type: loki
+    inputs: [switch]
+    endpoint: http://loki:3100
+    encoding:
+      codec: text
+    labels:
+      job: switch-syslog
+      host: switch

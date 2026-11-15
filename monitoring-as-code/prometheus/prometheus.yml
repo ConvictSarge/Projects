@@ -1,0 +1,84 @@
+# Hostnames below are placeholders for the real LAN addresses.
+global:
+  scrape_interval: 30s
+  evaluation_interval: 30s
+
+scrape_configs:
+  - job_name: prometheus
+    static_configs: [{ targets: ["localhost:9090"] }]
+
+  # Proxmox: nodes, VMs, containers, storage (read-only API token)
+  - job_name: proxmox
+    metrics_path: /pve
+    params: { module: [default], cluster: ["1"], node: ["1"] }
+    static_configs: [{ targets: ["node-b.lab"] }]
+    relabel_configs:
+      - { source_labels: [__address__], target_label: __param_target }
+      - { source_labels: [__param_target], target_label: instance }
+      - { target_label: __address__, replacement: "pve-exporter:9221" }
+
+  # Proxmox hosts (node_exporter)
+  - job_name: proxmox-hosts
+    static_configs:
+      - targets: ["node-a.lab:9100"]
+        labels: { host: node-a }
+      - targets: ["node-b.lab:9100"]
+        labels: { host: node-b }
+
+  # NAS (node_exporter)
+  - job_name: nas
+    static_configs:
+      - targets: ["nas.lab:9100"]
+        labels: { host: nas }
+
+  # Is each service answering with a 2xx?
+  - job_name: services
+    metrics_path: /probe
+    params: { module: [http_2xx] }
+    static_configs:
+      - targets:
+          - http://automation.lab:5678/healthz      # n8n
+          - http://vault.lab/alive                  # password manager
+          - https://www.example.com/                # a public site, through Cloudflare
+    relabel_configs: &probe
+      - { source_labels: [__address__], target_label: __param_target }
+      - { source_labels: [__param_target], target_label: instance }
+      - { target_label: __address__, replacement: "blackbox:9115" }
+
+  # Is it answering at all? Login pages, redirects and 401s count as up.
+  - job_name: services-any
+    metrics_path: /probe
+    params: { module: [http_any] }
+    static_configs:
+      - targets:
+          - http://dns.lab/admin/                   # Pi-hole
+          - http://homeassistant.lab:8123/          # Home Assistant
+          - https://node-a.lab:8006/                # Proxmox web UI
+          - https://node-b.lab:8006/                # Proxmox web UI
+          - http://nas.lab/                         # NAS web UI
+          - https://router.lab/                     # router web UI
+          - http://switch.lab/                      # switch web UI
+    relabel_configs: *probe
+
+  # Plain TCP checks for services without an HTTP health endpoint
+  - job_name: ports
+    metrics_path: /probe
+    params: { module: [tcp] }
+    static_configs:
+      - targets:
+          - db.lab:5432                             # PostgreSQL
+          - nas.lab:445                             # SMB shares and backups
+          - router.lab:53                           # router DNS
+          - switch.lab:22                           # switch management
+    relabel_configs: *probe
+
+  # Managed switch over SNMP v3 (PoE watts and uptime; uptime drops to 0 when it reboots)
+  - job_name: switch-snmp
+    metrics_path: /snmp
+    params: { module: [switch_poe], auth: [switch_v3] }
+    static_configs:
+      - targets: ["switch.lab"]
+    relabel_configs:
+      - { source_labels: [__address__], target_label: __param_target }
+      - { source_labels: [__param_target], target_label: instance }
+      - { target_label: __address__, replacement: "snmp-exporter:9116" }

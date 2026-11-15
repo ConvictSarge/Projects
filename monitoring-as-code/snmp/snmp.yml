@@ -1,0 +1,39 @@
+# Hand-written snmp_exporter config for a managed PoE switch.
+# Only standard MIBs are walked: the vendor's private tree is not readable over SNMP on this model.
+auths:
+  switch_v3:
+    version: 3
+    security_level: noAuthNoPriv      # the switch only offers this level; it is read-only and LAN-only
+    username: monitor
+
+modules:
+  switch_poe:
+    walk:
+      - 1.3.6.1.2.1.1.3               # sysUpTime
+      - 1.3.6.1.2.1.105.1.3.1.1       # POWER-ETHERNET-MIB pethMainPseTable
+    metrics:
+      - name: switch_uptime_ticks
+        oid: 1.3.6.1.2.1.1.3
+        type: gauge
+        help: Switch sysUpTime in hundredths of a second (drops to ~0 on reboot)
+      - name: switch_poe_budget_watts
+        oid: 1.3.6.1.2.1.105.1.3.1.1.2
+        type: gauge
+        help: PoE power budget in watts
+        indexes:
+          - labelname: pse_group
+            type: gauge
+      - name: switch_poe_status
+        oid: 1.3.6.1.2.1.105.1.3.1.1.3
+        type: gauge
+        help: PoE operational status (1 = on)
+        indexes:
+          - labelname: pse_group
+            type: gauge
+      - name: switch_poe_consumption_watts
+        oid: 1.3.6.1.2.1.105.1.3.1.1.4
+        type: gauge
+        help: PoE power in use, watts
+        indexes:
+          - labelname: pse_group
+            type: gauge
