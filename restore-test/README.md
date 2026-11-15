@@ -17,35 +17,38 @@ It came out of [the silent backup failure](../incidents/2026-11-silent-backup-fa
 
 - It refuses to run if the temporary ID already exists, if the ID is below 9000, or if the test IP already answers a ping.
 - The cleanup trap destroys only what this run created.
-- The isolation step exists because a real container in my lab has a second interface on a separate VLAN. A plain restore and start would have put a duplicate device on that network.
+- The isolation step is a backstop, not a licence. One container in my lab has a second interface on a protected VLAN. The isolation step would strip that interface before boot, but the weekly job still doesn't use that container: guests attached to protected networks are kept out of the rotation entirely.
 
-## A real run
+## Real runs
 
-Address replaced with a placeholder.
+Addresses replaced with placeholders.
 
 ```text
-# pve-restore-test -c 105 -s backup-share -i 192.168.1.250/24 -k "systemctl is-active --quiet ntfy"
-2026-11-14 22:00:01  newest archive: backup-share:backup/vzdump-lxc-105-2026_11_14-12_59_31.tar.zst (9h old)
-2026-11-14 22:00:06  restored to 9105 in 5s
-2026-11-14 22:00:10  isolated: removed [net0,net1], one untagged NIC at 192.168.1.250/24, no gateway
-2026-11-14 22:00:15  booted: systemd state 'degraded'
-2026-11-14 22:00:16  health check passed: systemctl is-active --quiet ntfy
-2026-11-14 22:00:20  destroyed temporary copy 9105
-2026-11-14 22:00:20  RESULT: PASS (container 105, archive vzdump-lxc-105-2026_11_14-12_59_31.tar.zst)
+# Weekly target: the DNS container (single untagged interface, no mounts)
+# pve-restore-test -c 107 -s backup-share -i 192.168.1.250/24 -a 72 -k "systemctl is-active --quiet pihole-FTL"
+2026-11-14 22:33:03  newest archive: backup-share:backup/vzdump-lxc-107-2026_11_12-03_44_44.tar.zst (66h old)
+2026-11-14 22:33:14  restored to 9107 in 11s
+2026-11-14 22:33:18  isolated: removed [net0], one untagged NIC at 192.168.1.250/24, no gateway
+2026-11-14 22:33:24  booted: systemd state 'running'
+2026-11-14 22:33:25  health check passed: systemctl is-active --quiet pihole-FTL
+2026-11-14 22:33:30  destroyed temporary copy 9107
+2026-11-14 22:33:30  RESULT: PASS (container 107, archive vzdump-lxc-107-2026_11_12-03_44_44.tar.zst)
 ```
 
-The failure path was tested the same way, with a health check for a service that does not exist. The run reported `FAIL`, exited 1, logged the failure to syslog, and still destroyed the copy.
+The live DNS server kept answering throughout. The copy had a different address and no route out. (`-a 72` was used for this run because the nightly backups had been down for two nights. See the incident write-up.)
 
-("Degraded" is expected here: with no gateway, units that need the internet fail. The check that matters is the service.)
+An earlier run on a container with a second, VLAN-tagged interface showed `isolated: removed [net0,net1]`, so the copy never touched that network. That container is still kept out of the weekly schedule.
+
+The failure path was tested with a health check for a service that does not exist. The run reported `FAIL`, exited 1, logged to syslog, and still destroyed the copy.
 
 ## Schedule
 
 ```cron
 # /etc/cron.d/pve-restore-test - Sundays 05:15, after the nightly 03:30 backups
-15 5 * * 0 root /usr/local/sbin/pve-restore-test -c 105 -s backup-share -i 192.168.1.250/24 -k "systemctl is-active --quiet ntfy" >>/var/log/pve-restore-test.log 2>&1
+15 5 * * 0 root /usr/local/sbin/pve-restore-test -c 107 -s backup-share -i 192.168.1.250/24 -k "systemctl is-active --quiet pihole-FTL" >>/var/log/pve-restore-test.log 2>&1
 ```
 
 ## Next
 
-- Rotate through more containers instead of always testing the same one.
+- Rotate through every eligible container (single untagged interface, no mounts or passthrough), oldest-tested first.
 - Add a dead-man's switch: on success, ping an Uptime Kuma push monitor, so both a failed test and a test that never ran raise an alert.
