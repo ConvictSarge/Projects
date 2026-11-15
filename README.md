@@ -9,6 +9,7 @@ Write-ups of systems I have designed, built and run. Everything here is redacted
 | [Self-hosted voice and chat assistant](self-hosted-assistant/README.md) | Least-privilege tool design, secret masking, Home Assistant, CalDAV |
 | [Monitoring and centralized logging](monitoring-and-logging/README.md) | rsyslog, Uptime Kuma, change-only alerting, watchdogs |
 | [Infrastructure as code for a Proxmox lab](infrastructure-as-code/README.md) | OpenTofu, Ansible, cloud-init, least-privilege API tokens, CI with secret scanning |
+| [Incident write-ups](incidents/README.md) | Postmortems: network dropouts, a silent backup failure, a VPN DNS leak, hypervisor swap pressure |
 
 ## Environment
 
