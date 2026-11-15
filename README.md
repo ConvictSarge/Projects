@@ -6,6 +6,8 @@ Write-ups of systems I have designed, built and run. Everything here is redacted
 |---|---|
 | [Homelab architecture](homelab-architecture/README.md) | Network diagram: edge, VLANs, Proxmox cluster, DNS and reverse proxy, monitoring, backups, remote access |
 | [Incident write-ups](incidents/README.md) | Postmortems: network dropouts, a silent backup failure, a VPN DNS leak, hypervisor swap pressure |
+| [Windows Server and Active Directory lab](windows-ad-lab/README.md) | Unattended Windows Server 2025 install, DC promotion, OUs, GPOs, fine-grained password policy, onboarding/offboarding PowerShell tested on the live domain |
+| [Automated backup restore test](restore-test/README.md) | Weekly restore of the newest backup into an isolated throwaway copy, boot and service check, then cleanup |
 | [Monitoring as code](monitoring-as-code/README.md) | Prometheus, Proxmox, blackbox and SNMP exporters, Loki with Vector, provisioned Grafana; validated with promtool |
 | [Sysadmin scripts](sysadmin-scripts/README.md) | Bash tools with real exit codes: backup age, certificate expiry, DNS leak check, Proxmox health |
 | [Infrastructure as code for a Proxmox lab](infrastructure-as-code/README.md) | OpenTofu, Ansible, cloud-init, least-privilege API tokens, CI with secret scanning |
@@ -17,6 +19,7 @@ Write-ups of systems I have designed, built and run. Everything here is redacted
 ## Environment
 
 - Two-node Proxmox VE cluster (VMs and LXC containers) with an Unraid NAS for storage and backups
+- Linux and Windows Server guests; a lab Active Directory domain
 - Docker for most services; Cloudflare Tunnels for anything public
 - PostgreSQL with per-role access and row-level security
 - n8n for automation; small Python services where n8n is the wrong tool
