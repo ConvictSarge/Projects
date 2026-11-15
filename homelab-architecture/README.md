@@ -7,7 +7,7 @@ flowchart TB
     internet((Internet))
 
     subgraph edge["Edge"]
-        cf["Cloudflare<br/>DNS, Tunnel, Access, WAF"]
+        cf["Cloudflare<br/>DNS, Tunnel, Access"]
         router["Router / firewall"]
     end
 
@@ -75,15 +75,15 @@ flowchart TB
 
 | Layer | What runs there | Why it is built this way |
 |---|---|---|
-| Edge | Cloudflare DNS, Tunnel, Access and WAF in front of a router/firewall | No inbound ports are open. Public services go out through the tunnel, and admin pages answer only on the LAN. |
+| Edge | Cloudflare DNS, Tunnel and Access in front of a router/firewall | Services are published through an outbound tunnel instead of port forwards, and only the hostnames that need to be public are listed; everything else is LAN-only. |
 | LAN | Managed PoE switch, controller-managed Wi-Fi, segmented VLANs | The switch sends syslog and SNMP to the monitoring stack, so a crash leaves evidence. |
 | Virtualization | Two-node Proxmox VE cluster, VMs and LXC containers | A third quorum vote on the NAS keeps the cluster up when one node drops. |
 | Name resolution and proxy | Pi-hole and Caddy | LAN clients resolve service names to the local proxy, so traffic stays inside instead of going out and back through the tunnel. Certificates come from Let's Encrypt over DNS-01 using a token scoped to one zone. |
-| Platform | n8n, PostgreSQL, a local LLM, Home Assistant, Nextcloud, a password manager | Each service has its own container and its own least-privilege database role. |
+| Platform | n8n, PostgreSQL, a local LLM, Home Assistant, Nextcloud, a password manager | Services run in their own containers or VMs. Automation agents connect to PostgreSQL with separate least-privilege roles, and row-level security limits what each one can see. |
 | Observability | Prometheus, Grafana, Loki with Vector, an SNMP exporter, Uptime Kuma | Two vantage points: metrics live on node B, and Uptime Kuma lives on node A, so one node failing cannot blind both. |
 | Alerting | Discord and phone push | Change-only: an alert fires when something goes down or comes back, not on every check. Routine results go into one nightly digest. |
 | Backups | Nightly vzdump to the NAS, with retention | Backup errors alert. An automated restore test is next, so a missing backup shows up as a failed test rather than as silence. |
-| Remote access | WireGuard and Tailscale | Admin access from outside goes through the VPN, not through public login pages. |
+| Remote access | WireGuard and Tailscale | Remote access to the LAN goes through an encrypted VPN rather than through extra exposed services. |
 | Infrastructure as code | OpenTofu, cloud-init, Ansible, GitHub Actions | Lab VMs are built, hardened, verified and destroyed from code, through an API token limited to one resource pool. |
 
 ## Related
