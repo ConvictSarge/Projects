@@ -4,12 +4,13 @@ Write-ups of systems I have designed, built and run. Everything here is redacted
 
 | Project | What it shows |
 |---|---|
+| [Homelab architecture](homelab-architecture/README.md) | Network diagram: edge, VLANs, Proxmox cluster, DNS and reverse proxy, monitoring, backups, remote access |
+| [Incident write-ups](incidents/README.md) | Postmortems: network dropouts, a silent backup failure, a VPN DNS leak, hypervisor swap pressure |
+| [Infrastructure as code for a Proxmox lab](infrastructure-as-code/README.md) | OpenTofu, Ansible, cloud-init, least-privilege API tokens, CI with secret scanning |
+| [Monitoring and centralized logging](monitoring-and-logging/README.md) | rsyslog, Uptime Kuma, change-only alerting, watchdogs |
 | [Small-business back office on n8n](small-business-automation/README.md) | Workflow design, PostgreSQL, payments sandbox, e-signature, test-first change control |
 | [Email triage with local LLMs](email-triage-local-llm/README.md) | Self-hosted AI, failure handling, retry queues, human review |
 | [Self-hosted voice and chat assistant](self-hosted-assistant/README.md) | Least-privilege tool design, secret masking, Home Assistant, CalDAV |
-| [Monitoring and centralized logging](monitoring-and-logging/README.md) | rsyslog, Uptime Kuma, change-only alerting, watchdogs |
-| [Infrastructure as code for a Proxmox lab](infrastructure-as-code/README.md) | OpenTofu, Ansible, cloud-init, least-privilege API tokens, CI with secret scanning |
-| [Incident write-ups](incidents/README.md) | Postmortems: network dropouts, a silent backup failure, a VPN DNS leak, hypervisor swap pressure |
 
 ## Environment
 
