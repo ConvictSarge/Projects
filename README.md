@@ -13,6 +13,7 @@ Write-ups of systems I have designed, built and run. Everything here is redacted
 | [Infrastructure as code for a Proxmox lab](infrastructure-as-code/README.md) | OpenTofu, Ansible, cloud-init, least-privilege API tokens, CI with secret scanning |
 | [Monitoring and centralized logging](monitoring-and-logging/README.md) | rsyslog, Uptime Kuma, change-only alerting, watchdogs |
 | [Small-business back office on n8n](small-business-automation/README.md) | Workflow design, PostgreSQL, payments sandbox, e-signature, test-first change control |
+| [Weekly email list on my own stack](weekly-email-list/README.md) | Double opt-in, logic in PostgreSQL functions behind a least-privilege role, claim-before-send so reruns never double-mail, bot-safe confirm and approve links |
 | [Email triage with local LLMs](email-triage-local-llm/README.md) | Self-hosted AI, failure handling, retry queues, human review |
 | [Self-hosted voice and chat assistant](self-hosted-assistant/README.md) | Least-privilege tool design, secret masking, Home Assistant, CalDAV |
 
