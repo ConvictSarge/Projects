@@ -5,7 +5,7 @@ Write-ups of systems I have designed, built and run. Everything here is redacted
 | Project | What it shows |
 |---|---|
 | [Homelab architecture](homelab-architecture/README.md) | Network diagram: edge, VLANs, Proxmox cluster, DNS and reverse proxy, monitoring, backups, remote access |
-| [Incident write-ups](incidents/README.md) | Postmortems: network dropouts, a silent backup failure, a VPN DNS leak, hypervisor swap pressure, an n8n update that stalled the nightly workflow backup |
+| [Incident write-ups](incidents/README.md) | Postmortems: network dropouts, a silent backup failure, a VPN DNS leak, hypervisor swap pressure, an n8n update that stalled the nightly workflow backup, a reverse-proxy host header that broke a phone login |
 | [Windows Server and Active Directory lab](windows-ad-lab/README.md) | Unattended Windows Server 2025 install, DC promotion, OUs, GPOs, fine-grained password policy, onboarding/offboarding PowerShell tested on the live domain |
 | [Automated backup restore test](restore-test/README.md) | Weekly restore of the newest backup into an isolated throwaway copy, boot and service check, then cleanup |
 | [Proxmox tools packaged as n8n workflows](proxmox-tools/README.md) | Nightly restore drill with no-network copies and safety gates, a monthly PDF written by hand in JavaScript, least-privilege tokens, leak-checked packaging and buyer-style import testing |
@@ -16,6 +16,8 @@ Write-ups of systems I have designed, built and run. Everything here is redacted
 | [Small-business back office on n8n](small-business-automation/README.md) | Workflow design, PostgreSQL, payments sandbox, e-signature, test-first change control |
 | [Weekly email list on my own stack](weekly-email-list/README.md) | Double opt-in, logic in PostgreSQL functions behind a least-privilege role, claim-before-send so reruns never double-mail, bot-safe confirm and approve links |
 | [Per-business website concept images](outreach-concept-builder/README.md) | Python, headless Chromium and a local LLM: parked-domain and bot-wall detection, grounded copy only, brand logo and colours, seeded design variety, watermarked renders for cold email |
+| [Store sales webhook](store-sales-webhook/README.md) | n8n webhook with HMAC over the raw body, claim-before-work deduplication, API read-back, opt-in-only newsletter adds |
+| [Rules-based market scanner with paper trading](market-signals/README.md) | Python service behind n8n, Discord bot, enforced API budget, size-only-shrinks risk rule, simulated trades with exposure caps; no advice, no real money |
 | [Email triage with local LLMs](email-triage-local-llm/README.md) | Self-hosted AI, failure handling, retry queues, human review |
 | [Self-hosted voice and chat assistant](self-hosted-assistant/README.md) | Least-privilege tool design, secret masking, Home Assistant, CalDAV |
 

@@ -11,6 +11,7 @@ Everything is redacted: no IP addresses, hostnames, account IDs or credentials. 
 | [DNS leak on a VPN-only container](2026-11-vpn-container-dns-leak.md) | VPN, DNS, firewalling | A working tunnel and kill switch do not cover DNS |
 | [Hypervisor at 98% swap with almost no load](2026-11-hypervisor-swap-pressure.md) | Virtualization, memory | Guest page cache looks like used memory to the host |
 | [Nightly workflow backup stalled after an n8n update](2026-11-n8n-stalled-git-backup.md) | Automation, n8n, backups | "Retry and continue" hid the failure; a read-only copy found the real trigger |
+| [Nextcloud phone app kept logging out, only at home](2026-11-nextcloud-app-logout.md) | Reverse proxy, web apps | A proxy that does not pass the original host breaks login flows quietly |
 
 ## Format
 
