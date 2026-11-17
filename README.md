@@ -5,7 +5,7 @@ Write-ups of systems I have designed, built and run. Everything here is redacted
 | Project | What it shows |
 |---|---|
 | [Homelab architecture](homelab-architecture/README.md) | Network diagram: edge, VLANs, Proxmox cluster, DNS and reverse proxy, monitoring, backups, remote access |
-| [Incident write-ups](incidents/README.md) | Postmortems: network dropouts, a silent backup failure, a VPN DNS leak, hypervisor swap pressure, an n8n update that stalled the nightly workflow backup, a reverse-proxy host header that broke a phone login |
+| [Incident write-ups](incidents/README.md) | Postmortems: a campus building's camera network restored over a borrowed fiber trunk (VLAN missing one hop upstream), network dropouts, a silent backup failure, a VPN DNS leak, hypervisor swap pressure, an n8n update that stalled the nightly workflow backup, a reverse-proxy host header that broke a phone login |
 | [Windows Server and Active Directory lab](windows-ad-lab/README.md) | Unattended Windows Server 2025 install, DC promotion, OUs, GPOs, fine-grained password policy, onboarding/offboarding PowerShell tested on the live domain |
 | [Automated backup restore test](restore-test/README.md) | Weekly restore of the newest backup into an isolated throwaway copy, boot and service check, then cleanup |
 | [Proxmox tools packaged as n8n workflows](proxmox-tools/README.md) | Nightly restore drill with no-network copies and safety gates, a monthly PDF written by hand in JavaScript, least-privilege tokens, leak-checked packaging and buyer-style import testing |
