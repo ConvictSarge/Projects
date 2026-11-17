@@ -47,5 +47,5 @@ Two physical failures (the switch and the building's fiber run; the likely cause
 ## Lessons
 
 - When traffic is rerouted through a neighbor, check every hop's VLAN config, not just the new device.
-- Documentation that is wrong costs more time than none at all. The Layer 3 switch's ARP and MAC tables are the source of truth when the spreadsheet is in doubt.
+- Documentation that is wrong costs more time than none at all. When the spreadsheet is in doubt, the Layer 3 core shows what is really connected.
 - Write it up the same day, wrong entries included, so the next person isn't guessing.
