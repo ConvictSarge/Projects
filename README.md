@@ -18,6 +18,9 @@ Write-ups of systems I have designed, built and run. Everything here is redacted
 | [Per-business website concept images](outreach-concept-builder/README.md) | Python, headless Chromium and a local LLM: parked-domain and bot-wall detection, grounded copy only, brand logo and colours, seeded design variety, watermarked renders for cold email |
 | [Store sales webhook](store-sales-webhook/README.md) | n8n webhook with HMAC over the raw body, claim-before-work deduplication, API read-back, opt-in-only newsletter adds |
 | [Rules-based market scanner with paper trading](market-signals/README.md) | Python service behind n8n, Discord bot, enforced API budget, size-only-shrinks risk rule, simulated trades with exposure caps; no advice, no real money |
+| [Mission Control dashboard](mission-control/README.md) | A live business and automation dashboard served entirely by n8n webhooks: health by owner, approvals, money and usage gauges, 24-hour replay, test data kept out of live numbers |
+| [Usage and budget watches](usage-watches/README.md) | Hourly and daily n8n checks on pay-as-you-go services: spend from balance drops, pace and runaway alerts, one alert per problem via INSERT ... ON CONFLICT |
+| [Spoken morning recap](morning-voice-recap/README.md) | Local text-to-speech (Home Assistant + Piper) in two voices, overnight alerts from one log, one Discord DM with a text fallback |
 | [Email triage with local LLMs](email-triage-local-llm/README.md) | Self-hosted AI, failure handling, retry queues, human review |
 | [Self-hosted voice and chat assistant](self-hosted-assistant/README.md) | Least-privilege tool design, secret masking, Home Assistant, CalDAV |
 
