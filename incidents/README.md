@@ -10,6 +10,7 @@ Everything is redacted: no IP addresses, hostnames, account IDs or credentials. 
 | [Nightly backups stopped silently after a reboot](2026-11-silent-backup-failure.md) | Backups, storage, alerting | A backup job with no failure alert is a guess |
 | [DNS leak on a VPN-only container](2026-11-vpn-container-dns-leak.md) | VPN, DNS, firewalling | A working tunnel and kill switch do not cover DNS |
 | [Hypervisor at 98% swap with almost no load](2026-11-hypervisor-swap-pressure.md) | Virtualization, memory | Guest page cache looks like used memory to the host |
+| [Nightly workflow backup stalled after an n8n update](2026-11-n8n-stalled-git-backup.md) | Automation, n8n, backups | "Retry and continue" hid the failure; a read-only copy found the real trigger |
 
 ## Format
 
