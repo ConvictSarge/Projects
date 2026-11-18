@@ -9,6 +9,7 @@ Write-ups of systems I have designed, built and run. Everything here is redacted
 | [Windows Server and Active Directory lab](windows-ad-lab/README.md) | Unattended Windows Server 2025 install, DC promotion, OUs, GPOs, fine-grained password policy, onboarding/offboarding PowerShell tested on the live domain |
 | [Automated backup restore test](restore-test/README.md) | Weekly restore of the newest backup into an isolated throwaway copy, boot and service check, then cleanup |
 | [Proxmox tools packaged as n8n workflows](proxmox-tools/README.md) | Nightly restore drill with no-network copies and safety gates, a monthly PDF written by hand in JavaScript, least-privilege tokens, leak-checked packaging and buyer-style import testing |
+| [Approval-gated Proxmox fixes in n8n](proxmox-approve-and-apply/README.md) | Report-to-action workflows: findings confirmed across runs, a signed approval form with a whitelist, re-check right before the change, snapshots and config-digest locking, read-back verification, unit tests with mocked n8n globals |
 | [Monitoring as code](monitoring-as-code/README.md) | Prometheus, Proxmox, blackbox and SNMP exporters, Loki with Vector, provisioned Grafana; validated with promtool |
 | [Sysadmin scripts](sysadmin-scripts/README.md) | Bash tools with real exit codes: backup age, certificate expiry, DNS leak check, Proxmox health |
 | [Infrastructure as code for a Proxmox lab](infrastructure-as-code/README.md) | OpenTofu, Ansible, cloud-init, least-privilege API tokens, CI with secret scanning |
