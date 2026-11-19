@@ -6,6 +6,7 @@ Everything is redacted: no IP addresses, hostnames, account IDs or credentials. 
 
 | Incident | Area | Lesson |
 |---|---|---|
+| [A hosting container could reach every other network, bypassing the firewall and the switch](2026-11-vlan-hop-redteam.md) | Networking, VLANs, virtualization, red teaming | A hypervisor's default bridge behavior can be a bigger attack surface than the firewall, and won't show up in a firewall audit |
 | [Building camera network down: dead switch, bad fiber, a VLAN one hop short](2026-11-camera-network-vlan-trunk.md) | Networking, fiber, VLANs, documentation | A rerouted path needs the VLAN on every hop; the L3 core beats a stale spreadsheet |
 | [Network dropouts: a NIC hang and a leaking switch](2026-11-network-dropouts.md) | Networking, hardware, monitoring | One symptom had two unrelated causes; a second vantage point found both |
 | [Nightly backups stopped silently after a reboot](2026-11-silent-backup-failure.md) | Backups, storage, alerting | A backup job with no failure alert is a guess |
