@@ -3,7 +3,7 @@
 How the lab network is segmented, and how that shapes where workloads can run. Addresses, hostnames and account details are left out on purpose.
 
 ```mermaid
-flowchart TB
+flowchart LR
     internet((Internet))
     router["Router / firewall<br/>default-deny between segments"]
     switch["Managed PoE switch<br/>802.1Q trunks to nodes and APs"]
