@@ -12,6 +12,7 @@ Write-ups of systems I have designed, built and run. Everything here is redacted
 | [Approval-gated Proxmox fixes in n8n](proxmox-approve-and-apply/README.md) | Report-to-action workflows: findings confirmed across runs, a signed approval form with a whitelist, re-check right before the change, snapshots and config-digest locking, read-back verification, unit tests with mocked n8n globals |
 | [Monitoring as code](monitoring-as-code/README.md) | Prometheus, Proxmox, blackbox and SNMP exporters, Loki with Vector, provisioned Grafana; validated with promtool |
 | [Sysadmin scripts](sysadmin-scripts/README.md) | Bash tools with real exit codes: backup age, certificate expiry, DNS leak check, Proxmox health |
+| [Router firewall control script](router-firewall-control/README.md) | Bash on the router: iptables and conntrack to block a VLAN or single devices, or allow only an approved list; idempotent rules, a file lock, a status command, and a guard that keeps the router firewall's own mark-saving rule first |
 | [Infrastructure as code for a Proxmox lab](infrastructure-as-code/README.md) | OpenTofu, Ansible, cloud-init, least-privilege API tokens, CI with secret scanning |
 | [Monitoring and centralized logging](monitoring-and-logging/README.md) | rsyslog, Uptime Kuma, change-only alerting, watchdogs |
 | [Small-business back office on n8n](small-business-automation/README.md) | Workflow design, PostgreSQL, payments sandbox, e-signature, test-first change control |
