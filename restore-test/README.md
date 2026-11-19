@@ -1,6 +1,8 @@
 # Automated backup restore test
 
-A backup you have never restored is only a guess. This script proves an LXC container's newest backup really restores and boots, then throws the copy away. It runs weekly from cron on a Proxmox VE node.
+> **Update (November 2026):** this write-up describes the first version of the test, a weekly run against one container. The lab now runs one or two restore tests every night and rotates through the guests, so each one is tested within a month. The method below (restore, isolate, boot, health-check, destroy) is unchanged.
+
+A backup you have never restored is only a guess. This script proves an LXC container's newest backup really restores and boots, then throws the copy away. In its first version it ran weekly from cron on a Proxmox VE node.
 
 It came out of [the silent backup failure](../incidents/2026-11-silent-backup-failure.md): the backup jobs had stopped and nothing alerted. This checks the result end to end: is there a recent archive, does it extract, does the container boot, and is the service running.
 
@@ -41,7 +43,7 @@ An earlier run on a container with a second, VLAN-tagged interface showed `isola
 
 The failure path was tested with a health check for a service that does not exist. The run reported `FAIL`, exited 1, logged to syslog, and still destroyed the copy.
 
-## Schedule
+## Schedule (first version)
 
 ```cron
 # /etc/cron.d/pve-restore-test - Sundays 05:15, after the nightly 03:30 backups
@@ -50,5 +52,5 @@ The failure path was tested with a health check for a service that does not exis
 
 ## Next
 
-- Rotate through every eligible container (single untagged interface, no mounts or passthrough), oldest-tested first.
+- Rotate through every eligible container (single untagged interface, no mounts or passthrough), oldest-tested first. *(Done in the current nightly setup.)*
 - Add a dead-man's switch: on success, ping an Uptime Kuma push monitor, so both a failed test and a test that never ran raise an alert.
