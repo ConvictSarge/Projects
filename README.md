@@ -26,6 +26,7 @@ Write-ups of systems I have designed, built and run. Everything here is redacted
 | [Spoken morning recap](morning-voice-recap/README.md) | Local text-to-speech (Home Assistant + Piper) in two voices, overnight alerts from one log, one Discord DM with a text fallback |
 | [Email triage with local LLMs](email-triage-local-llm/README.md) | Self-hosted AI, failure handling, retry queues, human review |
 | [Self-hosted voice and chat assistant](self-hosted-assistant/README.md) | Least-privilege tool design, secret masking, Home Assistant, CalDAV |
+| [A team of scoped AI agents in n8n, isolated at the database](scoped-ai-agent-team/README.md) | Ten n8n AI agents for a small business back office, limited by per-agent database roles, safe views, who-may-ask-whom and verified orders, with the tests I ran. |
 
 ## Environment
 
